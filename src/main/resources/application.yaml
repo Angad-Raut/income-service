@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: income-service
+  config:
+    import: "optional:configserver:http://localhost:8888"
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${random.value}
+    prefer-ip-address: true
+

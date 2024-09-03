@@ -1,0 +1,51 @@
+version: '1.0'
+services:
+  postgres:
+    container_name: postgresIncomeDB
+    image: postgres
+    volumes:
+      - postgres-income-data:/var/lib/mysql
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DATABASE: incomesDB
+      POSTGRES_PASSWORD: angad@db
+    networks:
+      - income-details-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'angadraut89@gmail.com'
+      PGADMIN_DEFAULT_PASSWORD: angad@db
+    ports:
+      - 16543:80
+    volumes:
+      - ./servers.json:/pgadmin4/servers.json
+    networks:
+      - income-details-network
+
+  income-service-app:
+    image: income-details
+    restart: always
+    build: .
+    ports:
+      - 1993:1993
+    depends_on:
+      - postgres
+    environment:
+      POSTGRES_HOST: postgresIncomeDB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: angad@db
+      POSTGRES_PORT: 5432
+    networks:
+      - income-details-network
+
+networks:
+  income-details-network:
+    driver: bridge
+
+volumes:
+  postgres-income-data:
+    driver: local
+
