@@ -4,9 +4,9 @@ services:
     container_name: postgresIncomeDB
     image: postgres
     volumes:
-      - postgres-income-data:/var/lib/mysql
+      - postgres-income-data:/var/lib/postgres
     ports:
-      - 5432:5432
+      - 5435:5432
     environment:
       POSTGRES_DATABASE: incomesDB
       POSTGRES_PASSWORD: angad@db
